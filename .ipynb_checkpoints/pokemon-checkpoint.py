@@ -29,7 +29,7 @@ def press_key(key):
 
 def get_screen():
     # Adjust region to match your emulator window (e.g., 160x144 for Game Boy)
-    screenshot = pyautogui.screenshot(region=(60, 65, 320, 288))
+    screenshot = pyautogui.screenshot(region=(65, 35, 320, 288))
     return cv2.cvtColor(np.array(screenshot), cv2.COLOR_RGB2GRAY)
 
 class PokemonRedEnv(gym.Env):
