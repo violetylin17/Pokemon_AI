@@ -21,42 +21,37 @@ def get_screen():
     screenshot = pyautogui.screenshot(region=(x, y, width, height))
     return cv2.cvtColor(np.array(screenshot), cv2.COLOR_RGB2BGR)
 
-def get_grid_state(screen):
-    grid = np.zeros((9, 10), dtype=np.uint8)
-    tile_size = 48
-    gray_screen = cv2.cvtColor(screen, cv2.COLOR_RGB2GRAY)  # Convert to grayscale
-
-    for y in range(9):
-        for x in range(10):
-            tile = gray_screen[y*tile_size:(y+1)*tile_size, x*tile_size:(x+1)*tile_size]
-            gray_mean = np.mean(tile)  # Compute mean grayscale intensity
-            
-            # Define rules based on grayscale values
-            if 180 < gray_mean < 230:  # Grass and walkable areas
-                grid[y, x] = 1  # Accessible
-            elif 100 < gray_mean < 140:  # House doors, NPCs
-                grid[y, x] = 2  # Special objects (doors/NPCs)
-            else:
-                grid[y, x] = 0  # Inaccessible (trees, walls, obstacles)
-                
-    return grid
 # def get_grid_state(screen):
 #     grid = np.zeros((9, 10), dtype=np.uint8)
 #     tile_size = 48
+#     gray_screen = cv2.cvtColor(screen, cv2.COLOR_RGB2GRAY)  # Convert to grayscale
+
 #     for y in range(9):
 #         for x in range(10):
-#             tile = screen[y*tile_size:(y+1)*tile_size, x*tile_size:(x+1)*tile_size]
-#             b_mean = np.mean(tile[:, :, 0])
-#             g_mean = np.mean(tile[:, :, 1])
-#             r_mean = np.mean(tile[:, :, 2])
+#             tile = gray_screen[y*tile_size:(y+1)*tile_size, x*tile_size:(x+1)*tile_size]
+#             gray_mean = np.mean(tile)  # Compute mean grayscale intensity
             
-#             # Define rules based on extracted color statistics
-#             if (200 < r_mean < 235 and 220 < g_mean < 250 and 200 < b_mean < 225):
-#                 grid[y, x] = 1  # Accessible (path/grass)
+#             # Define rules based on grayscale values
+#             if 180 < gray_mean < 230:  # Grass and walkable areas
+#                 grid[y, x] = 1  # Accessible
+#             elif 100 < gray_mean < 140:  # House doors, NPCs
+#                 grid[y, x] = 2  # Special objects (doors/NPCs)
 #             else:
-#                 grid[y, x] = 0  # Inaccessible (trees or obstacles)
+#                 grid[y, x] = 0  # Inaccessible (trees, walls, obstacles)
                 
 #     return grid
+
+def get_grid_state(screen):
+    grid = np.zeros((9, 10), dtype=np.uint8)
+    for y in range(9):
+        for x in range(10):
+            tile = screen[y*16:(y+1)*16, x*16:(x+1)*16]
+            if np.var(tile) > 40 or np.mean(tile) in range(50, 150):
+                grid[y, x] = 1
+            else:
+                grid[y, x] = 0
+    return grid
+
 
 if __name__ == "__main__":
     print("Starting screen capture with grid (480x432, BGR). Press 'q' to quit.")
