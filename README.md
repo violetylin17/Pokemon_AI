@@ -62,8 +62,6 @@ This project uses computer vision and reinforcement learning to enable an AI age
 
 ## 🧑‍💻 Author
 
-Yvonne — AI tinkerer, visual prompt engineer, and Pokémon enthusiast.
+YuChien Lin — AI tinkerer, visual prompt engineer, and Pokémon enthusiast.
 
----
 
-Let me know if you want to add badges, demo GIFs, or a license section!
